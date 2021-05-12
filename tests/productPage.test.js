@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer');
-const assert = require('chai').assert;
+import puppeteer from 'puppeteer';
+import {assert} from 'chai';
 
 describe("One product page", () => {
     let browser;
