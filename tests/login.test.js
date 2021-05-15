@@ -1,15 +1,18 @@
 import LoginPage from '../pages/LoginPage.js';
+import AllProductsPage from '../pages/AllProductsPage.js';
 import puppeteer from 'puppeteer';
 import {assert} from 'chai';
 
 describe("Login Testing", () => {
     let loginPage;
-    let browser; // remove after
-    let page; //remove after
+    let allProductsPage;
+    let browser;
+    let page;
     before("Launch browser and go to login page", async function() {
         browser = await puppeteer.launch({headless: false});
         page = await browser.newPage();
         loginPage = new LoginPage(page);
+        allProductsPage = new AllProductsPage(page);
         await loginPage.open();
     });
 
@@ -23,13 +26,12 @@ describe("Login Testing", () => {
 
     it("Login as Standard User with valid credentials", async () => {
         await loginPage.clearUsername();
-        await loginPage.enterUserName('standard_user')
+        await loginPage.enterUserName('standard_user');
         await loginPage.clearPassword('#password');
         await loginPage.enterPassword('secret_sauce');
         await loginPage.clickLoginButton();
-        assert.include(page.url(), "inventory.html");
-        await page.waitForSelector('span.title');
-        const title = await page.$eval('span.title', text => text.textContent);
+        assert.equal(page.url(), allProductsPage.url);
+        const title = await allProductsPage.getPageTitle();
         assert.equal(title, "Products");
     });
 

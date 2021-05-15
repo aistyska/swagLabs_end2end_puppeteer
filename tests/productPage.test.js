@@ -1,43 +1,44 @@
+import {loginAsStandardUser} from '../utils/helpers.js';
+import AllProductsPage from '../pages/AllProductsPage.js';
+import OneProductPage from '../pages/OneProductPage.js';
 import puppeteer from 'puppeteer';
 import {assert} from 'chai';
 
 describe("One product page", () => {
     let browser;
     let page;
+    let allProductsPage;
+    let productPage;
 
     before("Launch browser and login as standard user", async function() {
         browser = await puppeteer.launch({headless: false});
         page = await browser.newPage();
-        await page.goto('https://www.saucedemo.com/');
-        await page.type('#user-name', 'standard_user');
-        await page.type('#password', 'secret_sauce');
-        await page.click('#login-button');
+        allProductsPage = new AllProductsPage(page);
+        productPage = new OneProductPage(page);
+        await loginAsStandardUser(page);
     });
 
     it("Check if product page has required information", async () => {
         await page.waitForSelector('#item_4_img_link');
         await page.click('#item_4_img_link');
-        assert.include(page.url(), "?id=4");
+        assert.include(page.url(), productPage.url);
         await page.waitForSelector('.inventory_details_desc_container');
-        const title = await page.$eval('.inventory_details_name', text => text.textContent);
+        const title = await productPage.getName();
         assert.equal(title, "Sauce Labs Backpack");
-        let description = await page.$('.inventory_details_desc');
+        const description = await productPage.getDescription();
         assert.exists(description);
-        description = await page.$eval('.inventory_details_desc', text => text.textContent);
         assert.isNotEmpty(description);
-        const price = await page.$eval('.inventory_details_price', price => price.textContent);
+        const price = await productPage.getPrice();
         assert.match(price, /^\$\d+\.\d{2}$/);
-        const addBtn = await page.$eval('#add-to-cart-sauce-labs-backpack', btn => btn.textContent);
+        const addBtn = await productPage.getAddToCartButtonText();
         assert.equal(addBtn, "Add to cart");
-        const img = await page.$('img.inventory_details_img');
-        assert.exists(img);
+        assert.isTrue(await productPage.imageExists(), "Image doesn't exist");
     });
 
     it("Go back to all products", async () => {
-        await page.click('#back-to-products');
-        assert.include(page.url(), "inventory.html");
-        await page.waitForSelector('span.title');
-        const title = await page.$eval('span.title', text => text.textContent);
+        await productPage.clickBackToProductsButton();
+        assert.equal(page.url(), allProductsPage.url);
+        const title = await allProductsPage.getPageTitle();
         assert.equal(title, "Products");
     });
 
