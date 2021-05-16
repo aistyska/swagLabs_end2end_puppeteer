@@ -31,8 +31,7 @@ describe("Login Testing", () => {
         await loginPage.enterPassword('secret_sauce');
         await loginPage.clickLoginButton();
         assert.equal(page.url(), allProductsPage.url);
-        const title = await allProductsPage.getPageTitle();
-        assert.equal(title, "Products");
+        assert.equal(await allProductsPage.getPageTitle(), "Products");
     });
 
     after("Close browser", async function() {

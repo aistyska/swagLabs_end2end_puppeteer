@@ -22,24 +22,17 @@ describe("One product page", () => {
         await page.waitForSelector('#item_4_img_link');
         await page.click('#item_4_img_link');
         assert.include(page.url(), productPage.url);
-        await page.waitForSelector('.inventory_details_desc_container');
-        const title = await productPage.getName();
-        assert.equal(title, "Sauce Labs Backpack");
-        const description = await productPage.getDescription();
-        assert.exists(description);
-        assert.isNotEmpty(description);
-        const price = await productPage.getPrice();
-        assert.match(price, /^\$\d+\.\d{2}$/);
-        const addBtn = await productPage.getAddToCartButtonText();
-        assert.equal(addBtn, "Add to cart");
+        assert.equal(await productPage.getName(), "Sauce Labs Backpack");
+        assert.isNotEmpty(await productPage.getDescription());
+        assert.match(await productPage.getPrice(), /^\$\d+\.\d{2}$/);
+        assert.equal(await productPage.getAddToCartButtonText(), "Add to cart");
         assert.isTrue(await productPage.imageExists(), "Image doesn't exist");
     });
 
     it("Go back to all products", async () => {
         await productPage.clickBackToProductsButton();
         assert.equal(page.url(), allProductsPage.url);
-        const title = await allProductsPage.getPageTitle();
-        assert.equal(title, "Products");
+        assert.equal(await allProductsPage.getPageTitle(), "Products");
     });
 
     after("Close browser", async function() {
