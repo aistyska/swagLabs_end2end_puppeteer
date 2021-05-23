@@ -18,6 +18,13 @@ class LoginPage {
     }
 
     async clickLoginButton() {
+        await Promise.all([
+            this.page.waitForNavigation(),
+            this.page.click('#login-button')
+        ]);
+    }
+
+    async clickLoginButtonNoWait() {
         await this.page.click('#login-button');
     }
 

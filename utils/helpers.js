@@ -1,6 +1,7 @@
 import LoginPage from "../pages/LoginPage.js";
 
 async function getText(page, selector) {
+    await page.waitForSelector(selector);
     return await page.$eval(selector, element => element.textContent);
 }
 

@@ -29,7 +29,10 @@ class OneProductPage {
     }
 
     async clickAddToCartButton() {
-        await this.page.click('button.btn_inventory');
+        await Promise.all([
+            this.page.waitForNavigation(),
+            this.page.click('button.btn_inventory')
+        ]);
     }
 
     async imageExists() {
@@ -37,7 +40,10 @@ class OneProductPage {
     }
 
     async clickBackToProductsButton() {
-        await this.page.click('#back-to-products');
+        await Promise.all([
+            this.page.waitForNavigation(),
+            this.page.click('#back-to-products')
+        ]);
     }
 
 }

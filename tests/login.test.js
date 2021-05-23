@@ -19,7 +19,7 @@ describe("Login Testing", () => {
     it("Login as Standard User with invalid credentials", async () => {
         await loginPage.enterUserName('standard_user1');
         await loginPage.enterPassword('secret');
-        await loginPage.clickLoginButton();
+        await loginPage.clickLoginButtonNoWait();
         const errorMessage = await loginPage.getErrorMessage();
         assert.equal(errorMessage, "Epic sadface: Username and password do not match any user in this service");
     });
