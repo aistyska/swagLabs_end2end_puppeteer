@@ -19,8 +19,7 @@ describe("One product page", () => {
     });
 
     it("Check if product page has required information", async () => {
-        await page.waitForSelector('#item_4_img_link');
-        await page.click('#item_4_img_link');
+        await allProductsPage.clickBackpackImg();
         assert.include(page.url(), productPage.url);
         assert.equal(await productPage.getName(), "Sauce Labs Backpack");
         assert.isNotEmpty(await productPage.getDescription());

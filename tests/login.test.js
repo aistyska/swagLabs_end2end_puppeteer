@@ -27,7 +27,7 @@ describe("Login Testing", () => {
     it("Login as Standard User with valid credentials", async () => {
         await loginPage.clearUsername();
         await loginPage.enterUserName('standard_user');
-        await loginPage.clearPassword('#password');
+        await loginPage.clearPassword();
         await loginPage.enterPassword('secret_sauce');
         await loginPage.clickLoginButton();
         assert.equal(page.url(), allProductsPage.url);

@@ -20,6 +20,10 @@ class AllProductsPage {
         return await getText(this.page, 'span.title');
     }
 
+    async clickBackpackImg() {
+        await this.page.waitForSelector('#item_4_img_link');
+        await this.page.click('#item_4_img_link');
+    }
 }
 
 
