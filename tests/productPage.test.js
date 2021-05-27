@@ -29,6 +29,7 @@ describe("One product page", () => {
     });
 
     it("Go back to all products", async () => {
+        await productPage.openBackpackPage();
         await productPage.clickBackToProductsButton();
         assert.equal(page.url(), allProductsPage.url);
         assert.equal(await allProductsPage.getPageTitle(), "Products");

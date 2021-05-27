@@ -3,6 +3,7 @@ import {getText} from '../utils/helpers.js';
 class OneProductPage {
 
     url = "https://www.saucedemo.com/inventory-item.html?id=";
+    backpackId = 4;
 
     constructor(page) {
         this.page = page
@@ -10,6 +11,10 @@ class OneProductPage {
 
     get url() {
         return this.url;
+    }
+
+    async openBackpackPage() {
+        await this.page.goto(`${this.url}${this.backpackId}`);
     }
 
     async getName() {
