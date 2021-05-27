@@ -1,16 +1,14 @@
 import LoginPage from '../pages/LoginPage.js';
 import AllProductsPage from '../pages/AllProductsPage.js';
-import puppeteer from 'puppeteer';
 import {assert} from 'chai';
+import {openPage} from '../utils/helpers.js';
 
 describe("Login Testing", () => {
     let loginPage;
     let allProductsPage;
-    let browser;
     let page;
     before("Launch browser and go to login page", async function() {
-        browser = await puppeteer.launch({headless: false});
-        page = await browser.newPage();
+        page = await openPage();
         loginPage = new LoginPage(page);
         allProductsPage = new AllProductsPage(page);
         await loginPage.open();
@@ -35,7 +33,7 @@ describe("Login Testing", () => {
     });
 
     after("Close browser", async function() {
-        await browser.close();
+        await page.browser().close();
     });
 
 });

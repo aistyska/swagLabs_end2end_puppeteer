@@ -1,18 +1,15 @@
-import {loginAsStandardUser} from '../utils/helpers.js';
+import {loginAsStandardUser, openPage} from '../utils/helpers.js';
 import AllProductsPage from '../pages/AllProductsPage.js';
 import OneProductPage from '../pages/OneProductPage.js';
-import puppeteer from 'puppeteer';
 import {assert} from 'chai';
 
 describe("One product page", () => {
-    let browser;
     let page;
     let allProductsPage;
     let productPage;
 
     before("Launch browser and login as standard user", async function() {
-        browser = await puppeteer.launch({headless: false});
-        page = await browser.newPage();
+        page = await openPage();
         allProductsPage = new AllProductsPage(page);
         productPage = new OneProductPage(page);
         await loginAsStandardUser(page);
@@ -36,7 +33,7 @@ describe("One product page", () => {
     });
 
     after("Close browser", async function() {
-        await browser.close();
+        await page.browser().close();
     });
 
 });

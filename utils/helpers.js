@@ -1,4 +1,10 @@
 import LoginPage from "../pages/LoginPage.js";
+import puppeteer from 'puppeteer';
+
+async function openPage() {
+    const browser = await puppeteer.launch({headless: false});
+    return await browser.newPage(); 
+}
 
 async function getText(page, selector) {
     await page.waitForSelector(selector);
@@ -19,4 +25,4 @@ async function loginAsStandardUser(page) {
     await loginPage.clickLoginButton();
 }
 
-export {getText, clearInputField, loginAsStandardUser};
+export {openPage, getText, clearInputField, loginAsStandardUser};
