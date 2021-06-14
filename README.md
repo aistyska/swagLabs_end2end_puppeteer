@@ -13,3 +13,5 @@ npm install
 ```
 npm run test
 ```
+### Reports
+The report of run tests can be found in `./report/report.html`
